@@ -1,8 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"deploy_demo/database"
+	"deploy_demo/routes"
+	"fmt"
+	"log"
+
+	"github.com/joho/godotenv"
+)
 
 func main() {
-	fmt.Println("Hello Dispatch from Deploying")
-	fmt.Println("Now i will start")
+	fmt.Println("starts connect on db..")
+	if err := godotenv.Load(); err != nil {
+		log.Printf("failed from .env file...%v", err)
+	}
+	database.InitDB()
+	defer database.DB.Close()
+
+	routes.SetHandlers()
+
 }
